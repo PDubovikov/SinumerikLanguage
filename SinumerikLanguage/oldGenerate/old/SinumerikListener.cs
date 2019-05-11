@@ -587,18 +587,6 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitRadiusFunctionCall([NotNull] SinumerikParser.RadiusFunctionCallContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>turnFunctionCall</c>
-	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTurnFunctionCall([NotNull] SinumerikParser.TurnFunctionCallContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>turnFunctionCall</c>
-	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTurnFunctionCall([NotNull] SinumerikParser.TurnFunctionCallContext context);
-	/// <summary>
 	/// Enter a parse tree produced by the <c>mmodeFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// </summary>
@@ -647,18 +635,6 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitToolNumberFunctionCall([NotNull] SinumerikParser.ToolNumberFunctionCallContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>toolNameFunctionCall</c>
-	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterToolNameFunctionCall([NotNull] SinumerikParser.ToolNameFunctionCallContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>toolNameFunctionCall</c>
-	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitToolNameFunctionCall([NotNull] SinumerikParser.ToolNameFunctionCallContext context);
-	/// <summary>
 	/// Enter a parse tree produced by the <c>toolIDFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// </summary>
@@ -682,18 +658,6 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitSubprogramFunctionCall([NotNull] SinumerikParser.SubprogramFunctionCallContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>msgFunctionCall</c>
-	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMsgFunctionCall([NotNull] SinumerikParser.MsgFunctionCallContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>msgFunctionCall</c>
-	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMsgFunctionCall([NotNull] SinumerikParser.MsgFunctionCallContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="SinumerikParser.ifStatement"/>.
 	/// </summary>
@@ -775,16 +739,6 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitGotoStatement([NotNull] SinumerikParser.GotoStatementContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="SinumerikParser.returnStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterReturnStatement([NotNull] SinumerikParser.ReturnStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="SinumerikParser.returnStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitReturnStatement([NotNull] SinumerikParser.ReturnStatementContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="SinumerikParser.idList"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -841,18 +795,6 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitIdentifierExpression([NotNull] SinumerikParser.IdentifierExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>modExpression</c>
-	/// labeled alternative in <see cref="SinumerikParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterModExpression([NotNull] SinumerikParser.ModExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>modExpression</c>
-	/// labeled alternative in <see cref="SinumerikParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitModExpression([NotNull] SinumerikParser.ModExpressionContext context);
-	/// <summary>
 	/// Enter a parse tree produced by the <c>notExpression</c>
 	/// labeled alternative in <see cref="SinumerikParser.expression"/>.
 	/// </summary>
@@ -864,18 +806,6 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitNotExpression([NotNull] SinumerikParser.NotExpressionContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>divExpression</c>
-	/// labeled alternative in <see cref="SinumerikParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDivExpression([NotNull] SinumerikParser.DivExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>divExpression</c>
-	/// labeled alternative in <see cref="SinumerikParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDivExpression([NotNull] SinumerikParser.DivExpressionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>orExpression</c>
 	/// labeled alternative in <see cref="SinumerikParser.expression"/>.
@@ -1032,6 +962,18 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitListExpression([NotNull] SinumerikParser.ListExpressionContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>ternaryExpression</c>
+	/// labeled alternative in <see cref="SinumerikParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTernaryExpression([NotNull] SinumerikParser.TernaryExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>ternaryExpression</c>
+	/// labeled alternative in <see cref="SinumerikParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTernaryExpression([NotNull] SinumerikParser.TernaryExpressionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>inputExpression</c>
 	/// labeled alternative in <see cref="SinumerikParser.expression"/>.

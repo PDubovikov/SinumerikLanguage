@@ -68,7 +68,11 @@
       <CustomToolNamespace>SinumerikLanguage.Antlr4</CustomToolNamespace>
     </Antlr4>
     <None Include="App.config" />
+    <None Include="Main\Main.ini" />
     <None Include="packages.config" />
+    <None Include="Sub\CHAMFER.spf" />
+    <None Include="Sub\KANAVKA_SFERA.spf" />
+    <None Include="Sub\KONUS.spf" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

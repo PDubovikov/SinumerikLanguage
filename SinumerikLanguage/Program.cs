@@ -15,66 +15,55 @@ namespace SinumerikLanguage
         static void Main(string[] args)
         {
 
-            StringBuilder log = new StringBuilder();
+            StringBuilder outputProg = new StringBuilder();
             Dictionary<IToken,int> Tokens = new Dictionary<IToken, int>();
-            int number = 0;
-            //        Dictionary<string, int> map = new Dictionary<string, int>();
-            //        Dictionary<int, string> tokenMap = new Dictionary<int, string>();
 
             try
             {
-                //foreach(string str in GetString("test.tl").Split('\n'))
-                //{
-                //    log.Append(str + "\n");
-                //}
-
-                SinumerikLexer lexer = new SinumerikLexer(CharStreams.fromPath("goto_test.tl"));
-                //  TokenStreamRewriter rewriter = new TokenStreamRewriter(new CommonTokenStream(lexer));
-                IToken token;
-                
-                token = lexer.NextToken();
-                while (token.Type != SinumerikLexer.Eof)
-                {
-                 
-                    Tokens[token] = number;
-                    number++;
-                    token = lexer.NextToken();
-                }
-                lexer.Reset();
-                lexer.Line = 0;
-                //  BufferedTokenStream buffered = new BufferedTokenStream()
-
-                SinumerikParser parser = new SinumerikParser(new CommonTokenStream(lexer));
-                
-
-                //    TLParser parser = new TLParser(tokenStream);
-                ITokenStream tokenStr = parser.TokenStream;
-              //  log.Append(tokenStr.GetText() + "\n");
-                parser.BuildParseTree = true;
-                IParseTree tree = parser.parse();
-
+                string path = Path.GetDirectoryName(Directory.GetCurrentDirectory());
+                string baseDir = path.Remove(path.Length - 4);
+                string mainDir = baseDir + "\\Main\\";
+                string subDir = baseDir + "\\Sub\\";
                 Scope scope = new Scope();
                 var functions = new Dictionary<string, Function>();
-                SymbolVisitor symbolVisitor = new SymbolVisitor(functions);
-                symbolVisitor.Visit(tree);
-                EvalVisitor visitor = new EvalVisitor(scope, functions);
+
+                foreach (var fileName in Directory.EnumerateFiles(subDir))
+                {
+                    SinumerikLexer subLexer = new SinumerikLexer(CharStreams.fromPath(fileName));
+                    SinumerikParser subParser = new SinumerikParser(new CommonTokenStream(subLexer));
+
+                    subParser.BuildParseTree = true;
+                    IParseTree subTree = subParser.parse();
+
+                    SymbolVisitor subSymbolVisitor = new SymbolVisitor(functions);
+                    subSymbolVisitor.Visit(subTree);
+                }
+
+                SinumerikLexer mainLexer = new SinumerikLexer(CharStreams.fromPath(baseDir + "\\test\\chamfer_test.mpf"));
+                SinumerikParser mainParser = new SinumerikParser(new CommonTokenStream(mainLexer));
+                mainParser.BuildParseTree = true;
+                IParseTree mainTree = mainParser.parse();
+
+                SymbolVisitor mainSymbolVisitor = new SymbolVisitor(functions);
+                mainSymbolVisitor.Visit(mainTree);
+                EvalVisitor visitor = new EvalVisitor(scope, functions, outputProg);
              //   visitor.NumberedLabel = Tokens;
-                visitor.Visit(tree);
-                log.Append(visitor.GcodeBuffer);
+                visitor.Visit(mainTree);
+                //log.Append(visitor.GcodeBuffer);
             }
             catch (Exception e)
             {
                 if (e.Message != null)
                 {
-                    log.Append(e.Message);
+                    outputProg.Append(e.Message);
                 }
                 else
                 {
-                    log.Append(e.StackTrace);
+                    outputProg.Append(e.StackTrace);
                 }
             }
-            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", log.ToString());
-            Console.WriteLine("Tokens: " + number);
+            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "outputProg.txt", outputProg.ToString());
+         //   Console.WriteLine("Tokens: " + number);
             Console.ReadKey();
 
         }

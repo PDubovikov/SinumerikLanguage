@@ -16,7 +16,7 @@ namespace SinumerikLanguage.Antlr4
     public class EvalVisitor : SinumerikBaseVisitor<SLValue>
     {
         private StringBuilder log = new StringBuilder();
-        public StringBuilder GcodeBuffer { get; private set; } = new StringBuilder();
+        public StringBuilder GcodeBuffer { get; private set; }
         private static ReturnValue returnValue = new ReturnValue();
         private Scope scope;
         private Dictionary<String, Function> functions;
@@ -33,10 +33,11 @@ namespace SinumerikLanguage.Antlr4
         private int countStatement;
 
 
-        public EvalVisitor(Scope scope, Dictionary<String, Function> functions)
+        public EvalVisitor(Scope scope, Dictionary<String, Function> functions, StringBuilder gcodeBuffer)
         {
             this.scope = scope;
             this.functions = functions;
+            GcodeBuffer = gcodeBuffer;
             NumberedLabel = new Dictionary<String, int>();
             numberStatement = new Dictionary<String, int>();
             listBlocks = new List<BlockContext>();
@@ -51,6 +52,7 @@ namespace SinumerikLanguage.Antlr4
             for (int i = 0; i < statements.Length; ++i)
             {
                 mainStatement = statements[i];
+                string statName = mainStatement.GetText();
 
                 if (mainStatement.metkaStart() != null)
                 {
@@ -69,7 +71,7 @@ namespace SinumerikLanguage.Antlr4
 
         public override SLValue VisitParse(ParseContext ctx)
         {
-            RememberLineLabels(ctx.block().statement());
+//            RememberLineLabels(ctx.block().statement());
             mainBlock = ctx.block();
             listBlocks.Add(mainBlock);
 
@@ -181,7 +183,7 @@ namespace SinumerikLanguage.Antlr4
             }
         }
 
-        // expression op=( '==' | '!=' ) expression             #eqExpression
+        // expression op=( '==' | '<>' ) expression             #eqExpression
         public override SLValue VisitEqExpression(EqExpressionContext ctx)
         {
             switch (ctx.op.Type)
@@ -422,19 +424,34 @@ namespace SinumerikLanguage.Antlr4
             return new SLValue(lhs.asBoolean() || rhs.asBoolean());
         }
 
-        // expression '?' expression ':' expression #ternaryExpression
-        public override SLValue VisitTernaryExpression(TernaryExpressionContext ctx)
+        // expression MOD expression                #modExpression
+        public override SLValue VisitModExpression(ModExpressionContext ctx)
         {
-            SLValue condition = this.Visit(ctx.expression(0));
-            if (condition.asBoolean())
+            SLValue lhs = this.Visit(ctx.expression(0));
+            SLValue rhs = this.Visit(ctx.expression(1));
+
+            if(!lhs.IsNumber() || !rhs.IsNumber())
             {
-                return new SLValue(this.Visit(ctx.expression(1)));
+                throw new EvalException(ctx);
             }
-            else
-            {
-                return new SLValue(this.Visit(ctx.expression(2)));
-            }
+
+            return new SLValue(Math.IEEERemainder(lhs.asDouble(), rhs.asDouble()));
         }
+
+        // expression DIV expression                #divExpression
+        public override SLValue VisitDivExpression(DivExpressionContext ctx)
+        {
+            SLValue lhs = this.Visit(ctx.expression(0));
+            SLValue rhs = this.Visit(ctx.expression(1));
+
+            if (!lhs.IsNumber() || !rhs.IsNumber())
+            {
+                throw new EvalException(ctx);
+            }
+
+            return new SLValue(Math.Truncate(lhs.asDouble()/rhs.asDouble()));
+        }
+
 
         // Number                                   #numberExpression
         public override SLValue VisitNumberExpression(NumberExpressionContext ctx)
@@ -617,7 +634,7 @@ namespace SinumerikLanguage.Antlr4
             Function function;
             if ((function = functions[id]) != null)
             {
-                return function.invoke(param, functions, scope);
+                return function.invoke(param, functions, scope, GcodeBuffer);
             }
             throw new EvalException(ctx);
         }
@@ -939,9 +956,8 @@ namespace SinumerikLanguage.Antlr4
         // ;
         public override SLValue VisitBlock(BlockContext ctx)
         {
-            // RememberLineLabels(ctx.statement());
-            //listBlocks.Add(ctx);
-           // countStatement += ctx.ChildCount ;
+            RememberLineLabels(ctx.statement());
+
             scope = new Scope(scope); // create new local scope
             nextStatement = -1;
 
