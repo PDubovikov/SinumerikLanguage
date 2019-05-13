@@ -503,6 +503,48 @@ public partial class SinumerikBaseListener : ISinumerikListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitTraoriFunctionCall([NotNull] SinumerikParser.TraoriFunctionCallContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>diamonFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterDiamonFunctionCall([NotNull] SinumerikParser.DiamonFunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>diamonFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitDiamonFunctionCall([NotNull] SinumerikParser.DiamonFunctionCallContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>diamofFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterDiamofFunctionCall([NotNull] SinumerikParser.DiamofFunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>diamofFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitDiamofFunctionCall([NotNull] SinumerikParser.DiamofFunctionCallContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>diam90FunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterDiam90FunctionCall([NotNull] SinumerikParser.Diam90FunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>diam90FunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitDiam90FunctionCall([NotNull] SinumerikParser.Diam90FunctionCallContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by the <c>xcoordFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// <para>The default implementation does nothing.</para>

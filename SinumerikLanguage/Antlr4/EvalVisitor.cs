@@ -611,6 +611,7 @@ namespace SinumerikLanguage.Antlr4
         // : Identifier indexes? '=' expression
         public override SLValue VisitAssignment(AssignmentContext ctx)
         {
+
             SLValue newVal = this.Visit(ctx.expression());
             if (ctx.indexes() != null)
             {

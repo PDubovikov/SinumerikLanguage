@@ -404,6 +404,39 @@ public partial class SinumerikBaseVisitor<Result> : AbstractParseTreeVisitor<Res
 	/// <return>The visitor result.</return>
 	public virtual Result VisitTraoriFunctionCall([NotNull] SinumerikParser.TraoriFunctionCallContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by the <c>diamonFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitDiamonFunctionCall([NotNull] SinumerikParser.DiamonFunctionCallContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>diamofFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitDiamofFunctionCall([NotNull] SinumerikParser.DiamofFunctionCallContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>diam90FunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitDiam90FunctionCall([NotNull] SinumerikParser.Diam90FunctionCallContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by the <c>xcoordFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// <para>

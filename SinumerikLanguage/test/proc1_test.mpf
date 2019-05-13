@@ -7,3 +7,4 @@ RET
 FOR R1=1 TO 20
 MYPROC(R1)
 ENDFOR
+println("END")
