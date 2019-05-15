@@ -39,7 +39,7 @@ namespace SinumerikLanguage
                     subSymbolVisitor.Visit(subTree);
                 }
 
-                SinumerikLexer mainLexer = new SinumerikLexer(CharStreams.fromPath(baseDir + "\\test\\array_test.txt"));
+                SinumerikLexer mainLexer = new SinumerikLexer(CharStreams.fromPath(baseDir + "\\test\\kanavka_sfera_test.mpf"));
                 SinumerikParser mainParser = new SinumerikParser(new CommonTokenStream(mainLexer));
                 mainParser.BuildParseTree = true;
                 IParseTree mainTree = mainParser.parse();

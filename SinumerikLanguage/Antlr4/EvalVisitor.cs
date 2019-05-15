@@ -613,6 +613,7 @@ namespace SinumerikLanguage.Antlr4
         {
 
             SLValue newVal = this.Visit(ctx.expression());
+
             if (ctx.indexes() != null)
             {
                 SLValue val = scope.resolve(ctx.Identifier().GetText());
@@ -1104,6 +1105,36 @@ namespace SinumerikLanguage.Antlr4
         public override SLValue VisitAscaleFunctionCall(AscaleFunctionCallContext ctx)
         {
             String id = ctx.AScale().GetText();
+
+            lastToken.Clear();
+            GcodeBuffer.Append(id + " ");
+
+            return SLValue.VOID;
+        }
+
+        public override SLValue VisitDiamonFunctionCall(DiamonFunctionCallContext ctx)
+        {
+            String id = ctx.Diamon().GetText();
+
+            lastToken.Clear();
+            GcodeBuffer.Append(id + " ");
+
+            return SLValue.VOID;
+        }
+
+        public override SLValue VisitDiamofFunctionCall(DiamofFunctionCallContext ctx)
+        {
+            String id = ctx.Diamof().GetText();
+
+            lastToken.Clear();
+            GcodeBuffer.Append(id + " ");
+
+            return SLValue.VOID;
+        }
+
+        public override SLValue VisitDiam90FunctionCall(Diam90FunctionCallContext ctx)
+        {
+            String id = ctx.Diam90().GetText();
 
             lastToken.Clear();
             GcodeBuffer.Append(id + " ");

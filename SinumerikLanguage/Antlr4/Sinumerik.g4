@@ -58,6 +58,9 @@ functionCall
  | Oriwks                                   #oriwksFunctionCall
  | Oriaxes                                  #oriaxesFunctionCall
  | Traori                                   #traoriFunctionCall
+ | Diamon                                   #diamonFunctionCall
+ | Diamof                                   #diamofFunctionCall
+ | Diam90                                   #diam90FunctionCall
  | Xaxis '=' expression                     #xcoordFunctionCall
  | Yaxis '=' expression                     #ycoordFunctionCall
  | Zaxis '=' expression                     #zcoordFunctionCall
@@ -71,13 +74,16 @@ functionCall
  | Jvect '=' expression                     #jvectFunctionCall
  | Kvect '=' expression                     #kvectFunctionCall
  | Radius '=' expression                    #radiusFunctionCall
+ | Turn '=' expression                      #turnFunctionCall
 // | GFunc                        #gmodeFunctionCall
  | MFunc '='? Number?                       #mmodeFunctionCall
  | FFunc '=' expression                     #feedFunctionCall
  | SFunc '=' expression                     #speedFunctionCall
  | TFunc                                    #toolNumberFunctionCall
+ | TFunc '=' String                         #toolNameFunctionCall
  | DFunc                                    #toolIDFunctionCall
  | SubProg '(' exprList? ')'                #subprogramFunctionCall
+ | Msg '(' expression ')'                   #msgFunctionCall
  ;
 
 
@@ -100,7 +106,7 @@ elseStat
  ;
 
 functionDecl
- : Proc Identifier '(' idList? ')' block EndProc
+ : Proc Identifier '(' idList? ')' block returnStatement
  ;
 
 forStatement
@@ -117,6 +123,10 @@ whileStatement
  | Goto Identifier
  ;
 
+returnStatement
+: Return
+;
+
 idList
  : typeDef Identifier ( ',' typeDef Identifier )*
  ;
@@ -132,10 +142,11 @@ expression
  | expression op=( '*' | '/' | '%' ) expression         #multExpression
  | expression op=( '+' | '-' ) expression               #addExpression
  | expression op=( '>=' | '<=' | '>' | '<' ) expression #compExpression
- | expression op=( '==' | '!=' ) expression             #eqExpression
+ | expression op=( '==' | '<>' ) expression             #eqExpression
  | expression And expression                            #andExpression
  | expression Or expression                             #orExpression
- | expression '?' expression ':' expression             #ternaryExpression
+ | expression Mod expression                            #modExpression
+ | expression Div expression                            #divExpression
  | Number                                               #numberExpression
  | Bool                                                 #boolExpression
  | Null                                                 #nullExpression
@@ -172,13 +183,13 @@ varlist
    ;
 
 typeDef
-    : 'INT'
-    | 'STRING'
-    | 'REAL'
-    | 'BOOL'
-    | 'CHAR'
-    | 'AXIS'
-    | 'FRAME'
+    : 'INT'| 'int'
+    | 'STRING'| 'string'
+    | 'REAL'| 'real'
+    | 'BOOL'| 'bool'
+    | 'CHAR'| 'char'
+    | 'AXIS'| 'axis'
+    | 'FRAME'| 'frame'
     ;
 
 indexes
@@ -198,44 +209,53 @@ Print    : 'print';
 Input    : 'input';
 Assert   : 'assert';
 Size     : 'size';
-Sin      : 'SIN';
-ASin     : 'ASIN';
-Cos      : 'COS';
-ACos     : 'ACOS';
-Tan      : 'TAN';
-ATan     : 'ATAN';
-ATan2    : 'ATAN2';
-Abs      : 'ABS';
-Sqrt     : 'SQRT';
-Trunc    : 'TRUNC';
-Pot      : 'POT';
-Round    : 'ROUND';
-Def      : 'DEF';
-Proc     : 'PROC';
-EndProc  : 'RET'|('m'|'M')('17');
-If       : 'IF';
-EndIf    : 'ENDIF';
-Else     : 'ELSE';
-Return   : 'return';
-For      : 'FOR';
-EndFor   : 'ENDFOR';
-While    : 'WHILE';
-EndWhile : 'ENDWHILE';
-GotoB    : 'GOTOB';
-GotoF    : 'GOTOF';
-Goto     : 'GOTO';
-Trans    : 'TRANS';
-Atrans   : 'ATRANS';
-Rot      : 'ROT';
-Arot     : 'AROT';
-Mirror   : 'MIRROR';
-Amirror  : 'AMIRROR';
-Scale    : 'SCALE';
-AScale   : 'ASCALE';
-Oriwks   : 'ORIWKS';
-Oriaxes  : 'ORIAXES';
-Traori   : 'TRAORI';
-To       : 'TO';
+Sin      : 'sin'|'SIN';
+ASin     : 'asin'|'ASIN';
+Cos      : 'cos'|'COS';
+ACos     : 'acos'|'ACOS';
+Tan      : 'tan'|'TAN';
+ATan     : 'atan'|'ATAN';
+ATan2    : 'atan2'|'ATAN2';
+Abs      : 'abs'|'ABS';
+Sqrt     : 'sqrt'|'SQRT';
+Trunc    : 'trunc'|'TRUNC';
+Pot      : 'pot'|'POT';
+Mod      : 'mod'|'MOD';
+Div      : 'div'|'DIV';
+Round    : 'round'|'ROUND';
+Def      : 'def'|'DEF';
+Proc     : 'proc'|'PROC';
+If       : 'if'|'IF';
+EndIf    : 'endif'|'ENDIF';
+Else     : 'else'|'ELSE';
+Return   : 'ret'|'RET'|('m'|'M')('17');
+For      : 'for'|'FOR';
+EndFor   : 'endfor'|'ENDFOR';
+While    : 'while'|'WHILE';
+EndWhile : 'endwhile'|'ENDWHILE';
+GotoB    : 'gotob'|'GOTOB';
+GotoF    : 'gotof'|'GOTOF';
+Goto     : 'goto'|'GOTO';
+Trans    : 'trans'|'TRANS';
+Atrans   : 'atrans'|'ATRANS';
+Rot      : 'rot'|'ROT';
+Arot     : 'arot'|'AROT';
+Mirror   : 'mirror'|'MIRROR';
+Amirror  : 'amirror'|'AMIRROR';
+Scale    : 'scale'|'SCALE';
+AScale   : 'ascale'|'ASCALE';
+Diamon   : 'diamon'|'DIAMON';
+Diamof   : 'diamof'|'DIAMOF';
+Diam90   : 'diam90'|'DIAM90';
+Oriwks   : 'oriwks'|'ORIWKS';
+Oriaxes  : 'oriaxes'|'ORIAXES';
+Traori   : 'traori'|'TRAORI';
+Turn     : 'turn'|'TURN';
+Msg      : 'msg'|'MSG';
+Sblof    : 'sblof'|'SBLOF';
+Save     : 'save'|'SAVE';
+Displof  : 'displof'|'DISPLOF';
+To       : 'to'|'TO';
 End      : 'end';
 SubProg  : ('l'|'L')('0'..'9')+;
 Null     : 'null';
@@ -243,7 +263,7 @@ Null     : 'null';
 MFunc    : ('m' | 'M')('0'..'9')+;
 FFunc    : ('f' | 'F');
 SFunc    : ('s' | 'S');
-TFunc    : ('t' | 'T')('0'..'9')+;
+TFunc    : ('t' | 'T')('0'..'9')*;
 DFunc    : ('d' | 'D')('0'..'9')+;
 Nnumb    : ('n' | 'N')('0'..'9')+ -> skip;
 Xaxis    : 'x' | 'X';
@@ -265,7 +285,7 @@ Radius   : 'cr'| 'CR';
 Or       : 'or'|'OR';
 And      : 'and'|'AND';
 Equals   : '==';
-NEquals  : '!=';
+NEquals  : '<>';
 GTEquals : '>=';
 LTEquals : '<=';
 Pow      : '^';
@@ -290,8 +310,8 @@ QMark    : '?';
 Colon    : ':';
 
 Bool
- : 'TRUE'
- | 'FALSE'
+ : 'TRUE'|'true'
+ | 'FALSE'|'false'
  ;
 
 Number
@@ -304,11 +324,12 @@ GCodeText
 
 Identifier
  : [_a-zA-Z][_a-zA-Z][a-zA-Z_0-9]*
- | [rR][0-9]+
+ | [rR][0-9]*
+ | [$][_a-zA-Z0-9]+
  ;
 
 Labelstart
- : [a-zA-Z][a-zA-Z][a-zA-Z_0-9]*[:]
+ : [_a-zA-Z][_a-zA-Z][a-zA-Z_0-9]*[:]
  ;
 
 Mcodes
