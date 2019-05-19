@@ -38,17 +38,21 @@ namespace SinumerikLanguage
                     SymbolVisitor subSymbolVisitor = new SymbolVisitor(functions);
                     subSymbolVisitor.Visit(subTree);
                 }
-
-                SinumerikLexer mainLexer = new SinumerikLexer(CharStreams.fromPath(baseDir + "\\test\\kanavka_sfera_test.mpf"));
+                Console.WriteLine("subProg compiled ok");
+                SinumerikLexer mainLexer = new SinumerikLexer(CharStreams.fromPath(baseDir + "\\test\\cycle_konus.mpf"));
+                Console.WriteLine("mainFile lexer is ok");
                 SinumerikParser mainParser = new SinumerikParser(new CommonTokenStream(mainLexer));
+                Console.WriteLine("mainFile parser is ok");
                 mainParser.BuildParseTree = true;
                 IParseTree mainTree = mainParser.parse();
 
                 SymbolVisitor mainSymbolVisitor = new SymbolVisitor(functions);
                 mainSymbolVisitor.Visit(mainTree);
                 EvalVisitor visitor = new EvalVisitor(scope, functions, outputProg);
+                Console.WriteLine("visitor initial ok");
              //   visitor.NumberedLabel = Tokens;
                 visitor.Visit(mainTree);
+                Console.WriteLine("end");
                 //log.Append(visitor.GcodeBuffer);
             }
             catch (Exception e)
