@@ -300,6 +300,13 @@ public interface ISinumerikVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitSblonFunctionCall([NotNull] SinumerikParser.SblonFunctionCallContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>saveFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSaveFunctionCall([NotNull] SinumerikParser.SaveFunctionCallContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>xcoordFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// </summary>
@@ -453,6 +460,20 @@ public interface ISinumerikVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitMsgFunctionCall([NotNull] SinumerikParser.MsgFunctionCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>setalFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSetalFunctionCall([NotNull] SinumerikParser.SetalFunctionCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>stopreFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStopreFunctionCall([NotNull] SinumerikParser.StopreFunctionCallContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SinumerikParser.ifStatement"/>.
 	/// </summary>

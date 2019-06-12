@@ -31,6 +31,8 @@ namespace SinumerikLanguage.Antlr4
         private ISet<String> lastToken;
         private ISet<String> icacMode;
         private int nextStatement;
+        private int endStatement;
+        private int lastStatement;
         private int ifStatementNumber;
         private int countStatement;
 
@@ -74,6 +76,7 @@ namespace SinumerikLanguage.Antlr4
                 countStatement = i;
             }
 
+            endStatement = statements.Length - 1;
             reversLineNumberLabel = lineNumberLabel;
             reversLineNumberLabel.Reverse();
         }
@@ -522,7 +525,7 @@ namespace SinumerikLanguage.Antlr4
             {
                 throw new EvalException(ctx);
             }
-            val.asList()[(int)_idx.asDouble()] = newVal;
+            val.asList().Insert((int)_idx.asDouble(), newVal);
         }
 
         // functionCall indexes?                    #functionCallExpression
@@ -620,7 +623,6 @@ namespace SinumerikLanguage.Antlr4
         // : Identifier indexes? '=' expression
         public override SLValue VisitAssignment(AssignmentContext ctx)
         {
-
             SLValue newVal = this.Visit(ctx.expression());
 
             if (ctx.indexes() != null)
@@ -642,18 +644,32 @@ namespace SinumerikLanguage.Antlr4
         public override SLValue VisitVardefinition(VardefinitionContext ctx)
         {
             SLValue newVal = null;
-            //List<ExpressionContext> values = ctx.varlist().expression().ToList();
+            List<SLValue> list = new ArrayList<SLValue>();
 
             foreach (var item in ctx.varlist())
             {
-                if(item.expression() != null)
+                if (item.expression() != null)
                     newVal = this.Visit(item.expression());
 
-                scope.assign(item.Identifier().GetText(), newVal);
+                if (item.indexes() != null)
+                {                                     
+               //     List<ExpressionContext> exps = item.indexes().expression().ToList();
+                    foreach(var expr in item.indexes().expression())
+                    { 
+                        list.Capacity = (int)this.Visit(expr).asDouble();
+                    }
+                        scope.assign(item.Identifier().GetText(), new SLValue(list));
+                    
+                  //  return new SLValue(list);
+                }
+                else
+                {
+                    scope.assign(item.Identifier().GetText(), newVal);
+                }
+   
                 newVal = null; 
             }
             
-
             return SLValue.VOID;
         }
 
@@ -905,7 +921,7 @@ namespace SinumerikLanguage.Antlr4
                 {
                     currentStatement = ctx.ifStat().statement()[i];
                     if (currentStatement.gotoStatement() != null)
-                        return this.Visit(currentStatement); 
+                        return this.Visit(currentStatement);
 
                     this.Visit(ctx.ifStat().statement()[i]);
                 } 
@@ -970,7 +986,7 @@ namespace SinumerikLanguage.Antlr4
             RememberStatementLabels(ctx.statement());
 
             scope = new Scope(scope); // create new local scope
-            nextStatement = -1;
+            nextStatement = -1; lastStatement = -1;
 
             for (int i=0; i<ctx.statement().Length; i++)
             {                
@@ -980,6 +996,10 @@ namespace SinumerikLanguage.Antlr4
                     nextStatement = -1;
 
                   //  this.Visit(ctx.statement()[i]);
+                }
+                if(ctx.statement()[i].returnStatement() != null)
+                {
+                    return SLValue.VOID;
                 }
 
                 this.Visit(ctx.statement()[i]);
@@ -1519,6 +1539,18 @@ namespace SinumerikLanguage.Antlr4
 
             return SLValue.VOID;
         }
+
+        //public override SLValue VisitReturnStatement(ReturnStatementContext ctx)
+        //{
+
+        //    if (ctx.Return() != null)
+        //    {
+        //        lastStatement = endStatement;
+        //    }
+
+
+        //    return SLValue.VOID;
+        //}
 
     }
 }

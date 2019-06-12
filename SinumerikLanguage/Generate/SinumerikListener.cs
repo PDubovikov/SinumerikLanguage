@@ -489,6 +489,18 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitSblonFunctionCall([NotNull] SinumerikParser.SblonFunctionCallContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>saveFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSaveFunctionCall([NotNull] SinumerikParser.SaveFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>saveFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSaveFunctionCall([NotNull] SinumerikParser.SaveFunctionCallContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>xcoordFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// </summary>
@@ -752,6 +764,30 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitMsgFunctionCall([NotNull] SinumerikParser.MsgFunctionCallContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>setalFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSetalFunctionCall([NotNull] SinumerikParser.SetalFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>setalFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSetalFunctionCall([NotNull] SinumerikParser.SetalFunctionCallContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>stopreFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStopreFunctionCall([NotNull] SinumerikParser.StopreFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>stopreFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStopreFunctionCall([NotNull] SinumerikParser.StopreFunctionCallContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="SinumerikParser.ifStatement"/>.
 	/// </summary>
