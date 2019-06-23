@@ -23,7 +23,7 @@ namespace SinumerikLanguage.Antlr4
 
             List<ITerminalNode> param = ctx.idList() != null ? ctx.idList().Identifier().ToList() : new List<ITerminalNode>();
             IParseTree block = ctx.block();
-            String id = ctx.Identifier().GetText() + param.Count;
+            String id = ctx.Identifier().GetText(); // + param.Count;
             functions[id] = new Function(param, block);
             return SLValue.VOID;
         }

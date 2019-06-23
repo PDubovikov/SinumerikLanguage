@@ -319,6 +319,90 @@ public partial class SinumerikBaseListener : ISinumerikListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitModeicFunctionCall([NotNull] SinumerikParser.ModeicFunctionCallContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>xaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterXaxisNameFunctionCall([NotNull] SinumerikParser.XaxisNameFunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>xaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitXaxisNameFunctionCall([NotNull] SinumerikParser.XaxisNameFunctionCallContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>yaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterYaxisNameFunctionCall([NotNull] SinumerikParser.YaxisNameFunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>yaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitYaxisNameFunctionCall([NotNull] SinumerikParser.YaxisNameFunctionCallContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>zaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterZaxisNameFunctionCall([NotNull] SinumerikParser.ZaxisNameFunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>zaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitZaxisNameFunctionCall([NotNull] SinumerikParser.ZaxisNameFunctionCallContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>aaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAaxisNameFunctionCall([NotNull] SinumerikParser.AaxisNameFunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>aaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAaxisNameFunctionCall([NotNull] SinumerikParser.AaxisNameFunctionCallContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>baxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBaxisNameFunctionCall([NotNull] SinumerikParser.BaxisNameFunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>baxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBaxisNameFunctionCall([NotNull] SinumerikParser.BaxisNameFunctionCallContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>caxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterCaxisNameFunctionCall([NotNull] SinumerikParser.CaxisNameFunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>caxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitCaxisNameFunctionCall([NotNull] SinumerikParser.CaxisNameFunctionCallContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by the <c>transFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -921,6 +1005,20 @@ public partial class SinumerikBaseListener : ISinumerikListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitStopreFunctionCall([NotNull] SinumerikParser.StopreFunctionCallContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>axisByNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAxisByNameFunctionCall([NotNull] SinumerikParser.AxisByNameFunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>axisByNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAxisByNameFunctionCall([NotNull] SinumerikParser.AxisByNameFunctionCallContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="SinumerikParser.ifStatement"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -1004,6 +1102,18 @@ public partial class SinumerikBaseListener : ISinumerikListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitWhileStatement([NotNull] SinumerikParser.WhileStatementContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="SinumerikParser.mcallStatement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMcallStatement([NotNull] SinumerikParser.McallStatementContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SinumerikParser.mcallStatement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMcallStatement([NotNull] SinumerikParser.McallStatementContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="SinumerikParser.gotoStatement"/>.
 	/// <para>The default implementation does nothing.</para>

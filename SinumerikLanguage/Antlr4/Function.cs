@@ -21,7 +21,7 @@ namespace SinumerikLanguage.Antlr4
 
         }
 
-        public SLValue invoke(List<ExpressionContext> param, Dictionary<String, Function> functions, Scope scope, StringBuilder gcodeBuffer)
+        public SLValue Invoke(String functionName, List<ExpressionContext> param, Dictionary<String, Function> functions, Scope scope, StringBuilder gcodeBuffer)
         {
             if (param.Count != this._param.Count) {
                 throw new Exception("Illegal Function call");
@@ -39,11 +39,17 @@ namespace SinumerikLanguage.Antlr4
             try
             {
                 evalVistorNext.Visit(this.block);
+
             }
             catch (ReturnValue returnValue)
             {
                 ret = returnValue.value;
             }
+            catch (Exception ex)
+            {
+                throw new Exception($"Illegal Function {functionName} call");
+            }
+
             return ret;
         }
     }

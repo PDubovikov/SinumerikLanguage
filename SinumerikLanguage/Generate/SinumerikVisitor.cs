@@ -174,6 +174,48 @@ public interface ISinumerikVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitModeicFunctionCall([NotNull] SinumerikParser.ModeicFunctionCallContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>xaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitXaxisNameFunctionCall([NotNull] SinumerikParser.XaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>yaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitYaxisNameFunctionCall([NotNull] SinumerikParser.YaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>zaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitZaxisNameFunctionCall([NotNull] SinumerikParser.ZaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>aaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAaxisNameFunctionCall([NotNull] SinumerikParser.AaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>baxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBaxisNameFunctionCall([NotNull] SinumerikParser.BaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>caxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCaxisNameFunctionCall([NotNull] SinumerikParser.CaxisNameFunctionCallContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>transFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// </summary>
@@ -475,6 +517,13 @@ public interface ISinumerikVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStopreFunctionCall([NotNull] SinumerikParser.StopreFunctionCallContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>axisByNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAxisByNameFunctionCall([NotNull] SinumerikParser.AxisByNameFunctionCallContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SinumerikParser.ifStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -516,6 +565,12 @@ public interface ISinumerikVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitWhileStatement([NotNull] SinumerikParser.WhileStatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SinumerikParser.mcallStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMcallStatement([NotNull] SinumerikParser.McallStatementContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SinumerikParser.gotoStatement"/>.
 	/// </summary>

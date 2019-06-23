@@ -32,7 +32,6 @@ namespace SinumerikLanguage.Antlr4
         private ISet<String> icacMode;
         private int nextStatement;
         private int endStatement;
-        private int lastStatement;
         private int ifStatementNumber;
         private int countStatement;
 
@@ -507,10 +506,6 @@ namespace SinumerikLanguage.Antlr4
 
         private void SetAtIndex(ParserRuleContext ctx, List<ExpressionContext> indexes, SLValue val, SLValue newVal)
         {
-            if (!val.isList())
-            {
-                throw new EvalException(ctx);
-            }
             for (int i = 0; i < indexes.Count - 1; i++)
             {
                 SLValue idx = this.Visit(indexes[i]);
@@ -518,7 +513,7 @@ namespace SinumerikLanguage.Antlr4
                 {
                     throw new EvalException(ctx);
                 }
-                val = val.asList()[((int)idx.asDouble())];
+             //   val = val.asList()[((int)idx.asDouble())];
             }
             SLValue _idx = this.Visit(indexes[(indexes.Count - 1)]);
             if (!_idx.isNumber())
@@ -563,6 +558,8 @@ namespace SinumerikLanguage.Antlr4
                 List<ExpressionContext> exps = ctx.indexes().expression().ToList();
                 val = resolveIndexes(val, exps);
             }
+            if (val == null) { throw new EvalException(ctx); }
+
             return val;
         }
 
@@ -629,6 +626,7 @@ namespace SinumerikLanguage.Antlr4
             {
                 SLValue val = scope.resolve(ctx.Identifier().GetText());
                 List<ExpressionContext> exps = ctx.indexes().expression().ToList();
+                if (val == null) { throw new EvalException(ctx); }
                 SetAtIndex(ctx, exps, val, newVal);
             }
             else
@@ -656,7 +654,8 @@ namespace SinumerikLanguage.Antlr4
                //     List<ExpressionContext> exps = item.indexes().expression().ToList();
                     foreach(var expr in item.indexes().expression())
                     { 
-                        list.Capacity = (int)this.Visit(expr).asDouble();
+                        list.AddRange( new SLValue[(int)this.Visit(expr).asDouble()] ) ;
+                        
                     }
                         scope.assign(item.Identifier().GetText(), new SLValue(list));
                     
@@ -678,11 +677,11 @@ namespace SinumerikLanguage.Antlr4
         public override SLValue VisitIdentifierFunctionCall(IdentifierFunctionCallContext ctx)
         {
             List<ExpressionContext> param = ctx.exprList() != null ? ctx.exprList().expression().ToList() : new ArrayList<ExpressionContext>();
-            String id = ctx.Identifier().GetText() + param.Count;
+            String id = ctx.Identifier().GetText() ;//+ param.Count;
             Function function;
             if ((function = functions[id]) != null)
             {
-                return function.invoke(param, functions, scope, GcodeBuffer);
+                return function.Invoke(id, param, functions, scope, GcodeBuffer); 
             }
             throw new EvalException(ctx);
         }
@@ -941,7 +940,7 @@ namespace SinumerikLanguage.Antlr4
             string destination = ctx.metkaDest().GetText() + ":";
             ITerminalNode gotobNode = ctx.GotoB();
             ITerminalNode gotofNode = ctx.GotoF();
-            int metkaLineNumber = -1;
+            int metkaLineNumber = -1;    
 
             if (this.Visit(ctx.expression()).asBoolean())
             {    
@@ -986,7 +985,7 @@ namespace SinumerikLanguage.Antlr4
             RememberStatementLabels(ctx.statement());
 
             scope = new Scope(scope); // create new local scope
-            nextStatement = -1; lastStatement = -1;
+            nextStatement = -1;
 
             for (int i=0; i<ctx.statement().Length; i++)
             {                
@@ -995,7 +994,6 @@ namespace SinumerikLanguage.Antlr4
                     i = nextStatement;
                     nextStatement = -1;
 
-                  //  this.Visit(ctx.statement()[i]);
                 }
                 if(ctx.statement()[i].returnStatement() != null)
                 {
@@ -1010,7 +1008,7 @@ namespace SinumerikLanguage.Antlr4
         }
 
         // forStatement
-        // : For Identifier '=' expression To expression OBrace block CBrace
+        // : For Identifier '=' expression To expression block EndFor
         // ;
         public override SLValue VisitForStatement(ForStatementContext ctx)
         {
@@ -1028,7 +1026,8 @@ namespace SinumerikLanguage.Antlr4
             return SLValue.VOID;
         }
 
-        // whileStatement
+        // whileStatement 
+        // While expression block EndWhile
         public override SLValue VisitWhileStatement(WhileStatementContext ctx)
         {
             while (this.Visit(ctx.expression()).asBoolean())
@@ -1042,6 +1041,52 @@ namespace SinumerikLanguage.Antlr4
             return SLValue.VOID;
         }
 
+        // mcallStatement
+        public override SLValue VisitMcallStatement(McallStatementContext ctx)
+        {
+            StringBuilder functionGcodeBuffer = new StringBuilder();
+            List<ExpressionContext> param = ctx.exprList() != null ? ctx.exprList().expression().ToList() : new ArrayList<ExpressionContext>();
+            String id = ctx.Identifier().GetText() ;
+            Function function;
+            int count=0;
+            
+            if ((function = functions[id]) != null)
+            {
+                function.Invoke(id, param, functions, scope, functionGcodeBuffer);
+                GcodeBuffer.Append(";MCALL_START" + Environment.NewLine);
+                for (int i = 0; i < ctx.block().statement().Length; i++)
+                {
+                    string subName = ctx.block().statement()[i].GetText();
+                      this.Visit(ctx.block().statement()[i]);
+                }
+                GcodeBuffer.Append(";MCALL_END" + Environment.NewLine);
+
+                string[] lines = McallHandler(GcodeBuffer).Split('\n');
+
+                foreach (string line in lines )
+                {
+                    
+                    if (!string.IsNullOrWhiteSpace(line) && !line.Contains(Environment.NewLine))
+                    {
+                        GcodeBuffer.Append(line).Append(Environment.NewLine).Append(functionGcodeBuffer.ToString());
+                    }
+                }
+            }
+            return SLValue.VOID;
+        }
+
+        private String McallHandler(StringBuilder block)
+        {
+            StringBuilder mcallBuffer = new StringBuilder();
+            string mcallStart = ";MCALL_START"; string mcallEnd = ";MCALL_END";
+            int start = block.ToString().IndexOf(mcallStart) + mcallStart.Length;
+            int end = block.ToString().IndexOf(mcallEnd);
+            string outputMcallBlock = block.ToString().Substring(start, end - start);
+            GcodeBuffer.Remove(start, end - start);
+           
+            return outputMcallBlock;
+        }
+        
         // gotoStatement
         public override SLValue VisitGotoStatement(GotoStatementContext ctx)
         {
@@ -1248,6 +1293,24 @@ namespace SinumerikLanguage.Antlr4
             icacMode.Clear();
             return SLValue.VOID;
 
+        }
+
+        public override SLValue VisitAxisByNameFunctionCall(AxisByNameFunctionCallContext ctx)
+        {
+            SLValue arg = this.Visit(ctx.expression()[0]);
+            SLValue value = this.Visit(ctx.expression()[1]);
+
+            lastToken.Clear();
+            string formatValue;
+
+            formatValue = string.Format("{0:f9}", value.asDouble()).Replace(',', '.');
+            if (icacMode.Count > 0)
+                GcodeBuffer.Append(arg.ToString() + "=" + icacMode.First() + "(" + formatValue + ")");
+            else
+                GcodeBuffer.Append(arg.ToString() + formatValue);
+
+            icacMode.Clear();
+            return SLValue.VOID;
         }
 
         public override SLValue VisitAcoordFunctionCall (AcoordFunctionCallContext ctx)
@@ -1540,17 +1603,40 @@ namespace SinumerikLanguage.Antlr4
             return SLValue.VOID;
         }
 
-        //public override SLValue VisitReturnStatement(ReturnStatementContext ctx)
-        //{
+        public override SLValue VisitXaxisNameFunctionCall(XaxisNameFunctionCallContext ctx)
+        {
+             return new SLValue("X");
 
-        //    if (ctx.Return() != null)
-        //    {
-        //        lastStatement = endStatement;
-        //    }
+        }
 
+        public override SLValue VisitYaxisNameFunctionCall(YaxisNameFunctionCallContext ctx)
+        {
+            return new SLValue("Y");
 
-        //    return SLValue.VOID;
-        //}
+        }
 
+        public override SLValue VisitZaxisNameFunctionCall(ZaxisNameFunctionCallContext ctx)
+        {
+            return new SLValue("Z");
+
+        }
+
+        public override SLValue VisitAaxisNameFunctionCall(AaxisNameFunctionCallContext ctx)
+        {
+            return new SLValue("A");
+
+        }
+
+        public override SLValue VisitBaxisNameFunctionCall(BaxisNameFunctionCallContext ctx)
+        {
+            return new SLValue("B");
+
+        }
+
+        public override SLValue VisitCaxisNameFunctionCall(CaxisNameFunctionCallContext ctx)
+        {
+            return new SLValue("C");
+
+        }
     }
 }

@@ -273,6 +273,78 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitModeicFunctionCall([NotNull] SinumerikParser.ModeicFunctionCallContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>xaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterXaxisNameFunctionCall([NotNull] SinumerikParser.XaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>xaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitXaxisNameFunctionCall([NotNull] SinumerikParser.XaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>yaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterYaxisNameFunctionCall([NotNull] SinumerikParser.YaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>yaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitYaxisNameFunctionCall([NotNull] SinumerikParser.YaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>zaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterZaxisNameFunctionCall([NotNull] SinumerikParser.ZaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>zaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitZaxisNameFunctionCall([NotNull] SinumerikParser.ZaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>aaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAaxisNameFunctionCall([NotNull] SinumerikParser.AaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>aaxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAaxisNameFunctionCall([NotNull] SinumerikParser.AaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>baxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBaxisNameFunctionCall([NotNull] SinumerikParser.BaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>baxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBaxisNameFunctionCall([NotNull] SinumerikParser.BaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>caxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCaxisNameFunctionCall([NotNull] SinumerikParser.CaxisNameFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>caxisNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCaxisNameFunctionCall([NotNull] SinumerikParser.CaxisNameFunctionCallContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>transFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// </summary>
@@ -789,6 +861,18 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitStopreFunctionCall([NotNull] SinumerikParser.StopreFunctionCallContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>axisByNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAxisByNameFunctionCall([NotNull] SinumerikParser.AxisByNameFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>axisByNameFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAxisByNameFunctionCall([NotNull] SinumerikParser.AxisByNameFunctionCallContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="SinumerikParser.ifStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -858,6 +942,16 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitWhileStatement([NotNull] SinumerikParser.WhileStatementContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="SinumerikParser.mcallStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMcallStatement([NotNull] SinumerikParser.McallStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SinumerikParser.mcallStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMcallStatement([NotNull] SinumerikParser.McallStatementContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="SinumerikParser.gotoStatement"/>.
 	/// </summary>

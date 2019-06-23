@@ -33,8 +33,8 @@ namespace SinumerikLanguage
 
                 foreach (var fileName in Directory.EnumerateFiles(subDir))
                 {
-                    SinumerikLexer subLexer = new SinumerikLexer(CharStreams.fromPath(fileName));
-                    SinumerikParser subParser = new SinumerikParser(new CommonTokenStream(subLexer));
+                    SinumerikLexer subLexer = new SinumerikLexer(CharStreams.fromPath(fileName), null, errorTextWriter);
+                    SinumerikParser subParser = new SinumerikParser(new CommonTokenStream(subLexer), null, errorTextWriter);
 
                     subParser.BuildParseTree = true;
                     IParseTree subTree = subParser.parse();
@@ -44,7 +44,7 @@ namespace SinumerikLanguage
 
                 }
                 Console.WriteLine("subProg compiled ok");
-                SinumerikLexer mainLexer = new SinumerikLexer(CharStreams.fromPath(baseDir + "\\test\\proc1_test.mpf"), null, errorTextWriter);
+                SinumerikLexer mainLexer = new SinumerikLexer(CharStreams.fromPath(baseDir + "\\test\\holes1_test.mpf"), null, errorTextWriter);
                 Console.WriteLine("mainFile lexer is ok");
                 SinumerikParser mainParser = new SinumerikParser(new CommonTokenStream(mainLexer), null, errorTextWriter);
                 Console.WriteLine("mainFile parser is ok");

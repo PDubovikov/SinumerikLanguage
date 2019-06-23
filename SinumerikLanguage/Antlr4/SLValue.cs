@@ -40,9 +40,10 @@ namespace SinumerikLanguage.Antlr4
             }
         }
 
+
         public bool asBoolean()
         {
-            return (Boolean)value;
+            return Convert.ToBoolean(value);
         }
 
         public double asDouble()

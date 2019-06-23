@@ -13,6 +13,7 @@ namespace SinumerikLanguage.Antlr4
         private Scope _parent;
 
         private Dictionary<String, SLValue> variables;
+        private Dictionary<String, List<SLValue>> listVariables;
 
         public Scope():this(null)
         {
@@ -23,7 +24,8 @@ namespace SinumerikLanguage.Antlr4
         {
             _parent = p;
             variables = new Dictionary<string, SLValue>();
-           
+            listVariables = new Dictionary<string, List<SLValue>>();
+
         }
 
         public void assignParam(String var, SLValue value)
@@ -43,6 +45,11 @@ namespace SinumerikLanguage.Antlr4
                 // A newly declared variable
                 variables[var] = value;
             }
+        }
+
+        public void assignList(String var, List<SLValue> value)
+        {
+               listVariables[var] = value;          
         }
 
         private bool isGlobalScope()
@@ -89,7 +96,27 @@ namespace SinumerikLanguage.Antlr4
                 return null;
             }
         }
-        
+
+        public List<SLValue> resolveList(String var)
+        {
+
+            if (listVariables.ContainsKey(var))
+            {
+                // The variable resides in this scope
+                return listVariables[var];
+            }
+            else if (!isGlobalScope())
+            {
+                // Let the parent scope look for the variable
+                return _parent.resolveList(var);
+            }
+            else
+            {
+                // Unknown variable
+                return null;
+            }
+        }
+
         public override String ToString()
         {
             StringBuilder sb = new StringBuilder();
