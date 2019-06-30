@@ -28,8 +28,24 @@ namespace SinumerikLanguage
                 string baseDir = path.Remove(path.Length - 4);
                 string mainDir = baseDir + "\\Main\\";
                 string subDir = baseDir + "\\Sub\\";
-                Scope scope = new Scope();
+                string mainIniFile = mainDir + "Main.ini";
+                Scope mainScope = new Scope();
                 var functions = new Dictionary<string, Function>();
+
+                if (File.Exists(mainIniFile))
+                {             
+                    SinumerikLexer definitionLexer = new SinumerikLexer(CharStreams.fromPath(mainIniFile), null, errorTextWriter);
+                    SinumerikParser definitionParser = new SinumerikParser(new CommonTokenStream(definitionLexer), null, errorTextWriter);
+                    definitionParser.BuildParseTree = true;
+                    IParseTree definitionTree = definitionParser.parse();
+                    //SymbolVisitor deinitionSymbolVisitor = new SymbolVisitor(functions);
+                    //deinitionSymbolVisitor.Visit(definitionTree);
+
+                    GlobalVarsVisitor globalVars = new GlobalVarsVisitor(mainScope);
+                    globalVars.Visit(definitionTree);
+
+ 
+                }
 
                 foreach (var fileName in Directory.EnumerateFiles(subDir))
                 {
@@ -43,8 +59,9 @@ namespace SinumerikLanguage
                     subSymbolVisitor.Visit(subTree);
 
                 }
+                Scope scope = new Scope(mainScope);
                 Console.WriteLine("subProg compiled ok");
-                SinumerikLexer mainLexer = new SinumerikLexer(CharStreams.fromPath(baseDir + "\\test\\holes1_test.mpf"), null, errorTextWriter);
+                SinumerikLexer mainLexer = new SinumerikLexer(CharStreams.fromPath(baseDir + "\\test\\cycle801_test.mpf"), null, errorTextWriter);
                 Console.WriteLine("mainFile lexer is ok");
                 SinumerikParser mainParser = new SinumerikParser(new CommonTokenStream(mainLexer), null, errorTextWriter);
                 Console.WriteLine("mainFile parser is ok");

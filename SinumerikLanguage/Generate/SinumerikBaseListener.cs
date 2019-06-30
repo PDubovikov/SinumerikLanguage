@@ -1139,6 +1139,18 @@ public partial class SinumerikBaseListener : ISinumerikListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitReturnStatement([NotNull] SinumerikParser.ReturnStatementContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="SinumerikParser.endprogStatement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterEndprogStatement([NotNull] SinumerikParser.EndprogStatementContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SinumerikParser.endprogStatement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitEndprogStatement([NotNull] SinumerikParser.EndprogStatementContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="SinumerikParser.idList"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

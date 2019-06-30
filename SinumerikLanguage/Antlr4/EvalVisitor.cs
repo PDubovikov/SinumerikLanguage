@@ -93,10 +93,10 @@ namespace SinumerikLanguage.Antlr4
 
 
         // functionDecl
-        public override SLValue VisitFunctionDecl(FunctionDeclContext ctx)
-        {
-            return SLValue.VOID;
-        }
+        //public override SLValue VisitFunctionDecl(FunctionDeclContext ctx)
+        //{
+        //    return SLValue.VOID;
+        //}
 
         // list: '[' exprList? ']'
         public override SLValue VisitList(ListContext ctx)
@@ -441,7 +441,7 @@ namespace SinumerikLanguage.Antlr4
             SLValue lhs = this.Visit(ctx.expression(0));
             SLValue rhs = this.Visit(ctx.expression(1));
 
-            if(!lhs.IsNumber() || !rhs.IsNumber())
+            if(!lhs.isNumber() || !rhs.isNumber())
             {
                 throw new EvalException(ctx);
             }
@@ -643,12 +643,13 @@ namespace SinumerikLanguage.Antlr4
         {
             SLValue newVal = null;
             List<SLValue> list = new ArrayList<SLValue>();
+            String type = ctx.typeDef().GetText();
 
             foreach (var item in ctx.varlist())
             {
-                if (item.expression() != null)
-                    newVal = this.Visit(item.expression());
-
+                if (item.expression() != null) { newVal = this.Visit(item.expression()); }    
+                else { newVal = scope.GetDefaultValue(type); }
+                                 
                 if (item.indexes() != null)
                 {                                     
                //     List<ExpressionContext> exps = item.indexes().expression().ToList();
@@ -997,6 +998,7 @@ namespace SinumerikLanguage.Antlr4
                 }
                 if(ctx.statement()[i].returnStatement() != null)
                 {
+                    scope = scope.parent();
                     return SLValue.VOID;
                 }
 
@@ -1057,22 +1059,33 @@ namespace SinumerikLanguage.Antlr4
                 for (int i = 0; i < ctx.block().statement().Length; i++)
                 {
                     string subName = ctx.block().statement()[i].GetText();
-                      this.Visit(ctx.block().statement()[i]);
+                    if (ctx.block().statement()[i].endprogStatement() != null)
+                    {
+                        GcodeBuffer.Append(";MCALL_END" + Environment.NewLine);
+                        AddMcallContent(functionGcodeBuffer);
+                        return SLValue.VOID;
+                    }
+                    this.Visit(ctx.block().statement()[i]);
                 }
                 GcodeBuffer.Append(";MCALL_END" + Environment.NewLine);
+                AddMcallContent(functionGcodeBuffer);
 
-                string[] lines = McallHandler(GcodeBuffer).Split('\n');
-
-                foreach (string line in lines )
-                {
-                    
-                    if (!string.IsNullOrWhiteSpace(line) && !line.Contains(Environment.NewLine))
-                    {
-                        GcodeBuffer.Append(line).Append(Environment.NewLine).Append(functionGcodeBuffer.ToString());
-                    }
-                }
             }
             return SLValue.VOID;
+        }
+
+        private void AddMcallContent(StringBuilder content)
+        {
+            string[] lines = McallHandler(GcodeBuffer).Split('\n');
+
+            foreach (string line in lines)
+            {
+                if (!string.IsNullOrWhiteSpace(line) && !line.Contains(Environment.NewLine))
+                {
+                    GcodeBuffer.Append(line).Append(Environment.NewLine).Append(content.ToString());
+                }
+            }
+
         }
 
         private String McallHandler(StringBuilder block)
@@ -1095,8 +1108,6 @@ namespace SinumerikLanguage.Antlr4
             ITerminalNode gotofNode = ctx.GotoF();
             int metkaLineNumber = -1;
 
-            if (!string.IsNullOrEmpty(destination))
-            {
                 if (!string.IsNullOrEmpty(destination))
                 {
                     metkaLineNumber = ctx.metkaDest().Start.Line;
@@ -1127,8 +1138,7 @@ namespace SinumerikLanguage.Antlr4
                 }
                 metkaLineNumber = -1;
 
-            }
-                return SLValue.VOID;
+             return SLValue.VOID;
         }
 
         public override SLValue VisitRotFunctionCall(RotFunctionCallContext ctx)

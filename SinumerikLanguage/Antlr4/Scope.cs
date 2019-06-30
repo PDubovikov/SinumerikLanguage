@@ -13,10 +13,16 @@ namespace SinumerikLanguage.Antlr4
         private Scope _parent;
 
         private Dictionary<String, SLValue> variables;
-        private Dictionary<String, List<SLValue>> listVariables;
+        private static Dictionary<String, SLValue> globalVariables;
+
+        static Scope()
+        {
+            globalVariables = new Dictionary<string, SLValue>();
+        }
 
         public Scope():this(null)
         {
+            //globalVariables = new Dictionary<string, SLValue>();
             // only for the global scope, the parent is null
         }
 
@@ -24,7 +30,6 @@ namespace SinumerikLanguage.Antlr4
         {
             _parent = p;
             variables = new Dictionary<string, SLValue>();
-            listVariables = new Dictionary<string, List<SLValue>>();
 
         }
 
@@ -47,12 +52,13 @@ namespace SinumerikLanguage.Antlr4
             }
         }
 
-        public void assignList(String var, List<SLValue> value)
+        public void GlobalAssign(String var, SLValue value)
         {
-               listVariables[var] = value;          
+            globalVariables[var] = value;
         }
 
-        private bool isGlobalScope()
+
+        private bool isParentScope()
         {
             return _parent == null;
         }
@@ -79,41 +85,48 @@ namespace SinumerikLanguage.Antlr4
 
         public SLValue resolve(String var)
         {
-            
-            if (variables.ContainsKey(var))
+            if (globalVariables.ContainsKey(var))
             {
-                // The variable resides in this scope
-                return variables[var];
-            }
-            else if (!isGlobalScope())
-            {
-                // Let the parent scope look for the variable
-                return _parent.resolve(var);
+                return globalVariables[var];
             }
             else
             {
-                // Unknown variable
-                return null;
-            }
+                if (variables.ContainsKey(var))
+                {
+                    // The variable resides in this scope
+                    return variables[var];
+                }
+                else if (!isParentScope())
+                {
+                    // Let the parent scope look for the variable
+                    return _parent.resolve(var);
+                }
+                else
+                {
+                    // Unknown variable
+                    return null;
+                }
+            }    
         }
 
-        public List<SLValue> resolveList(String var)
+        public SLValue GetDefaultValue(string typeValue)
         {
 
-            if (listVariables.ContainsKey(var))
+            switch(typeValue)
             {
-                // The variable resides in this scope
-                return listVariables[var];
-            }
-            else if (!isGlobalScope())
-            {
-                // Let the parent scope look for the variable
-                return _parent.resolveList(var);
-            }
-            else
-            {
-                // Unknown variable
-                return null;
+                case "REAL":
+                    return new SLValue(default(double));
+                case "INT":
+                    return new SLValue(default(int));
+                case "BOOL":
+                    return new SLValue(default(bool));
+                case "STRING":
+                    return new SLValue(default(string));
+                case "CHAR":
+                    return new SLValue(default(char));
+                default:
+                    return SLValue.NULL;
+
             }
         }
 

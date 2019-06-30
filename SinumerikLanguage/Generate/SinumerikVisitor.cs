@@ -584,6 +584,12 @@ public interface ISinumerikVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitReturnStatement([NotNull] SinumerikParser.ReturnStatementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SinumerikParser.endprogStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitEndprogStatement([NotNull] SinumerikParser.EndprogStatementContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SinumerikParser.idList"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

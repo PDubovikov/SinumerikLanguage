@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Antlr4\GlobalVarsVisitor.cs" />
     <Compile Include="Antlr4\EvalExceptions.cs" />
     <Compile Include="Antlr4\EvalVisitor.cs" />
     <Compile Include="Antlr4\Function.cs" />
