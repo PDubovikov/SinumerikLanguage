@@ -447,6 +447,13 @@ public interface ISinumerikVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitTurnFunctionCall([NotNull] SinumerikParser.TurnFunctionCallContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>rplFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRplFunctionCall([NotNull] SinumerikParser.RplFunctionCallContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>mmodeFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// </summary>
@@ -577,6 +584,12 @@ public interface ISinumerikVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitGotoStatement([NotNull] SinumerikParser.GotoStatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SinumerikParser.repeatStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRepeatStatement([NotNull] SinumerikParser.RepeatStatementContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SinumerikParser.returnStatement"/>.
 	/// </summary>

@@ -24,6 +24,7 @@ namespace SinumerikLanguage.Antlr4
         private Dictionary<Tuple<int, String>, int> lineNumberLabel;
         private Dictionary<Tuple<int, String>, int> reversLineNumberLabel;
         private Dictionary<String, int> numberStatement;
+        private Dictionary<int, int> repeatByLineNumber;
         private StatementContext mainStatement;
         private StatementContext currentStatement;
         private BlockContext mainBlock;
@@ -45,6 +46,7 @@ namespace SinumerikLanguage.Antlr4
             numberStatement = new Dictionary<String, int>();
             lineNumberLabel = new Dictionary<Tuple<int, string>, int>();
             reversLineNumberLabel = new Dictionary<Tuple<int, string>, int>();
+            repeatByLineNumber = new Dictionary<int, int>();
             listBlocks = new List<BlockContext>();
             lastToken = new HashSet<String>();
             icacMode = new HashSet<String>();
@@ -455,7 +457,7 @@ namespace SinumerikLanguage.Antlr4
             SLValue lhs = this.Visit(ctx.expression(0));
             SLValue rhs = this.Visit(ctx.expression(1));
 
-            if (!lhs.IsNumber() || !rhs.IsNumber())
+            if (!lhs.isNumber() || !rhs.isNumber())
             {
                 throw new EvalException(ctx);
             }
@@ -926,9 +928,7 @@ namespace SinumerikLanguage.Antlr4
                     this.Visit(ctx.ifStat().statement()[i]);
                 } 
             }
-             
-            // else ...
-            if (ctx.elseStat() != null)
+            else if (ctx.elseStat() != null)                
             {
                 return this.Visit(ctx.elseStat());
             }
@@ -1077,12 +1077,15 @@ namespace SinumerikLanguage.Antlr4
         private void AddMcallContent(StringBuilder content)
         {
             string[] lines = McallHandler(GcodeBuffer).Split('\n');
-
+           
             foreach (string line in lines)
             {
-                if (!string.IsNullOrWhiteSpace(line) && !line.Contains(Environment.NewLine))
+                if (!IsOneOf(line, "TRANS", "ROT", "SCALE", "MIRROR", "MSG"))
                 {
-                    GcodeBuffer.Append(line).Append(Environment.NewLine).Append(content.ToString());
+                    if (!string.IsNullOrWhiteSpace(line) && !line.Contains(Environment.NewLine))
+                    {
+                        GcodeBuffer.Append(line).Append(Environment.NewLine).Append(content.ToString());
+                    }
                 }
             }
 
@@ -1099,7 +1102,20 @@ namespace SinumerikLanguage.Antlr4
            
             return outputMcallBlock;
         }
-        
+
+        // Helper method
+        public bool IsOneOf(String value, params string[] items)
+        {
+            foreach(var item in items)
+            { 
+                if (value.Contains(item))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         // gotoStatement
         public override SLValue VisitGotoStatement(GotoStatementContext ctx)
         {
@@ -1139,6 +1155,49 @@ namespace SinumerikLanguage.Antlr4
                 metkaLineNumber = -1;
 
              return SLValue.VOID;
+        }
+
+        public override SLValue VisitRepeatStatement(RepeatStatementContext ctx)
+        {
+            SLValue count = null;
+            string destinationEnd = null; string destinationStart = null;
+            int repeatLine = ctx.Start.Line;
+
+            if (ctx.expression() != null) { count = this.Visit(ctx.expression()); }
+            else { count = new SLValue(1); }
+
+            if (count.isNumber() && !repeatByLineNumber.ContainsKey(repeatLine))
+            {
+                repeatByLineNumber[repeatLine] = (int)count.asDouble();
+            }
+
+            if (ctx.metkaDest().Count() >1 )
+            {
+                destinationStart = ctx.metkaDest()[0].GetText() + ":";
+                destinationEnd = ctx.metkaDest()[1].GetText() + ":";
+            }
+            else
+            {
+                destinationStart = ctx.metkaDest()[0].GetText() + ":";
+
+                if (destinationStart != null && repeatByLineNumber[repeatLine] > 0)
+                {
+                    int newCount = repeatByLineNumber[repeatLine];
+
+                    foreach (var key in lineNumberLabel.Keys)
+                    {
+                        if (key.Item2.Equals(destinationStart))
+                        {
+                            nextStatement = lineNumberLabel[key];
+                            break;
+                        }
+                    }
+
+                    repeatByLineNumber[repeatLine] = newCount - 1;
+                }
+            }
+                   
+            return SLValue.VOID;
         }
 
         public override SLValue VisitRotFunctionCall(RotFunctionCallContext ctx)

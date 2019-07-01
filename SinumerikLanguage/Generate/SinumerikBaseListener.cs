@@ -865,6 +865,20 @@ public partial class SinumerikBaseListener : ISinumerikListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitTurnFunctionCall([NotNull] SinumerikParser.TurnFunctionCallContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>rplFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRplFunctionCall([NotNull] SinumerikParser.RplFunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>rplFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRplFunctionCall([NotNull] SinumerikParser.RplFunctionCallContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by the <c>mmodeFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -1126,6 +1140,18 @@ public partial class SinumerikBaseListener : ISinumerikListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitGotoStatement([NotNull] SinumerikParser.GotoStatementContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="SinumerikParser.repeatStatement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRepeatStatement([NotNull] SinumerikParser.RepeatStatementContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SinumerikParser.repeatStatement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRepeatStatement([NotNull] SinumerikParser.RepeatStatementContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="SinumerikParser.returnStatement"/>.
 	/// <para>The default implementation does nothing.</para>

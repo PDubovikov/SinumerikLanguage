@@ -741,6 +741,18 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitTurnFunctionCall([NotNull] SinumerikParser.TurnFunctionCallContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>rplFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRplFunctionCall([NotNull] SinumerikParser.RplFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>rplFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRplFunctionCall([NotNull] SinumerikParser.RplFunctionCallContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>mmodeFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// </summary>
@@ -962,6 +974,16 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitGotoStatement([NotNull] SinumerikParser.GotoStatementContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="SinumerikParser.repeatStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRepeatStatement([NotNull] SinumerikParser.RepeatStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SinumerikParser.repeatStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRepeatStatement([NotNull] SinumerikParser.RepeatStatementContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="SinumerikParser.returnStatement"/>.
 	/// </summary>
