@@ -20,11 +20,11 @@ namespace SinumerikLanguage.Antlr4
 
         public override SLValue VisitFunctionDecl(FunctionDeclContext ctx)
         {
-
             List<ITerminalNode> param = ctx.idList() != null ? ctx.idList().Identifier().ToList() : new List<ITerminalNode>();
+            List<TypeDefContext> paramType = ctx.idList().typeDef().ToList();
             IParseTree block = ctx.block();
             String id = ctx.Identifier().GetText(); // + param.Count;
-            functions[id] = new Function(param, block);
+            functions[id] = new Function(param, paramType, block);
             return SLValue.VOID;
         }
     }

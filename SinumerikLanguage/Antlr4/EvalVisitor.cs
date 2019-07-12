@@ -679,12 +679,31 @@ namespace SinumerikLanguage.Antlr4
         // Identifier '(' exprList? ')' #identifierFunctionCall
         public override SLValue VisitIdentifierFunctionCall(IdentifierFunctionCallContext ctx)
         {
-            List<ExpressionContext> param = ctx.exprList() != null ? ctx.exprList().expression().ToList() : new ArrayList<ExpressionContext>();
+ //           List<ExpressionContext> param = ctx.exprList() != null ? ctx.exprList().expression().ToList() : new ArrayList<ExpressionContext>();
+            List<ExpressionContext> param = new ArrayList<ExpressionContext>();   
+            List<ITerminalNode> commaList = ctx.exprList().Comma().ToList();
+            int countParam = commaList.Count() + 1;
+            String temp = "";
+
+            for (int i = 0; i<ctx.exprList().ChildCount; i++)
+            {
+                if (ctx.exprList().GetChild(i).GetText().Equals(temp) || (i==0 && ctx.exprList().GetChild(i).GetText() == ","))
+                {
+                    param.Add(new ExpressionContext());
+                }
+                else if (ctx.exprList().GetChild(i).GetText() != ",")
+                {
+                    param.Add((ExpressionContext)ctx.exprList().GetChild(i));
+                }
+                
+
+                temp = ctx.exprList().GetChild(i).GetText();
+            }
             String id = ctx.Identifier().GetText() ;//+ param.Count;
             Function function;
             if ((function = functions[id]) != null)
             {
-                return function.Invoke(id, param, functions, scope, GcodeBuffer); 
+                return function.Invoke(id, param, countParam, functions, scope, GcodeBuffer); 
             }
             throw new EvalException(ctx);
         }
@@ -1048,13 +1067,14 @@ namespace SinumerikLanguage.Antlr4
         {
             StringBuilder functionGcodeBuffer = new StringBuilder();
             List<ExpressionContext> param = ctx.exprList() != null ? ctx.exprList().expression().ToList() : new ArrayList<ExpressionContext>();
+            List<ITerminalNode> commaList = ctx.exprList().Comma().ToList();
+            int countParam = commaList.Count() + 1;
             String id = ctx.Identifier().GetText() ;
             Function function;
-            int count=0;
             
             if ((function = functions[id]) != null)
             {
-                function.Invoke(id, param, functions, scope, functionGcodeBuffer);
+                function.Invoke(id, param, countParam, functions, scope, functionGcodeBuffer);
                 GcodeBuffer.Append(";MCALL_START" + Environment.NewLine);
                 for (int i = 0; i < ctx.block().statement().Length; i++)
                 {
@@ -1080,12 +1100,13 @@ namespace SinumerikLanguage.Antlr4
            
             foreach (string line in lines)
             {
-                if (!IsOneOf(line, "TRANS", "ROT", "SCALE", "MIRROR", "MSG"))
+                if (IsOneOf(line, "TRANS", "ROT", "SCALE", "MIRROR", "MSG"))
                 {
-                    if (!string.IsNullOrWhiteSpace(line) && !line.Contains(Environment.NewLine))
-                    {
-                        GcodeBuffer.Append(line).Append(Environment.NewLine).Append(content.ToString());
-                    }
+                    GcodeBuffer.Append(line).Append(Environment.NewLine);
+                }
+                else if (!string.IsNullOrWhiteSpace(line) && !line.Contains(Environment.NewLine))
+                {
+                    GcodeBuffer.Append(line).Append(Environment.NewLine).Append(content.ToString());
                 }
             }
 
