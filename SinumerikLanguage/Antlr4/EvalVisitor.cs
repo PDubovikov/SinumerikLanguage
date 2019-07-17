@@ -19,6 +19,7 @@ namespace SinumerikLanguage.Antlr4
         public StringBuilder GcodeBuffer { get; private set; }
         private static ReturnValue returnValue = new ReturnValue();
         private Scope scope;
+        private NumberFormatInfo numberInfo;
         private Dictionary<String, Function> functions;
         private Dictionary<String, int> numberedLabel;
         private Dictionary<Tuple<int, String>, int> lineNumberLabel;
@@ -50,6 +51,10 @@ namespace SinumerikLanguage.Antlr4
             listBlocks = new List<BlockContext>();
             lastToken = new HashSet<String>();
             icacMode = new HashSet<String>();
+            numberInfo = new NumberFormatInfo();
+            numberInfo.NumberDecimalSeparator = ".";
+
+
         }
 
       
@@ -469,7 +474,8 @@ namespace SinumerikLanguage.Antlr4
         // Number                                   #numberExpression
         public override SLValue VisitNumberExpression(NumberExpressionContext ctx)
         {
-            return new SLValue(Convert.ToDouble(ctx.GetText().Replace('.',',')));
+                return new SLValue(Double.Parse(ctx.GetText(), NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign|NumberStyles.AllowExponent, numberInfo));
+
         }
 
         // Bool                                     #boolExpression
@@ -1218,6 +1224,34 @@ namespace SinumerikLanguage.Antlr4
                 }
             }
                    
+            return SLValue.VOID;
+        }
+
+        public override SLValue VisitCaseStatement(CaseStatementContext ctx)
+        {
+            int value = (int)this.Visit(ctx.expression()).asDouble();
+            Dictionary<int, ITerminalNode> param = new Dictionary<int, ITerminalNode>();
+            for(int i = 0; i < ctx.Number().Length; i++)
+            {
+                param.Add(i, ctx.Number(i));
+            }
+            
+            for(int i=0; i<ctx.ChildCount; i++)
+            {
+                if (ctx.GetChild(i).GetText() == value.ToString())
+                {
+                    int k = param.Where(x => x.Value.GetText() == value.ToString()).FirstOrDefault().Key;
+                    this.Visit(ctx.gotoStatement(k));
+                    return SLValue.VOID;
+                }
+                if(ctx.GetChild(i).Equals(ctx.Default()))      
+                {
+                    this.Visit(ctx.gotoStatement(ctx.gotoStatement().Length-1));
+                    return SLValue.VOID;
+                }
+            }
+            // TODO Default statement
+
             return SLValue.VOID;
         }
 

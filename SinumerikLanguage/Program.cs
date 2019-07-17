@@ -61,7 +61,7 @@ namespace SinumerikLanguage
                 }
                 Scope scope = new Scope(mainScope);
                 Console.WriteLine("subProg compiled ok");
-                SinumerikLexer mainLexer = new SinumerikLexer(CharStreams.fromPath(baseDir + "\\test\\cycle801_test.mpf"), null, errorTextWriter);
+                SinumerikLexer mainLexer = new SinumerikLexer(CharStreams.fromPath(baseDir + "\\test\\case_test.mpf"), null, errorTextWriter);
                 Console.WriteLine("mainFile lexer is ok");
                 SinumerikParser mainParser = new SinumerikParser(new CommonTokenStream(mainLexer), null, errorTextWriter);
                 Console.WriteLine("mainFile parser is ok");

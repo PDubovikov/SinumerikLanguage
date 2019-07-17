@@ -985,6 +985,16 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitRepeatStatement([NotNull] SinumerikParser.RepeatStatementContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="SinumerikParser.caseStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCaseStatement([NotNull] SinumerikParser.CaseStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SinumerikParser.caseStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCaseStatement([NotNull] SinumerikParser.CaseStatementContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="SinumerikParser.returnStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
