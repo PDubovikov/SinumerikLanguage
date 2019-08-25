@@ -15,9 +15,15 @@ namespace SinumerikLanguage.Antlr4
         private Dictionary<String, SLValue> variables;
         private static Dictionary<String, SLValue> globalVariables;
 
+
         static Scope()
         {
             globalVariables = new Dictionary<string, SLValue>();
+            for(int i=0; i<200; i++)
+            {
+                globalVariables["R" + i] = new SLValue(default(double));
+            }
+
         }
 
         public Scope():this(null)
@@ -85,27 +91,26 @@ namespace SinumerikLanguage.Antlr4
 
         public SLValue resolve(String var)
         {
-            if (globalVariables.ContainsKey(var))
+
+            if (variables.ContainsKey(var))
             {
-                return globalVariables[var];
+                // The variable resides in this scope
+                return variables[var];
+            }
+            else if (!isParentScope())
+            {
+                // Let the parent scope look for the variable
+                return _parent.resolve(var);
+            }
+            else if (globalVariables.ContainsKey(var))
+            {
+                variables[var] = globalVariables[var];        
+                return variables[var];
             }
             else
             {
-                if (variables.ContainsKey(var))
-                {
-                    // The variable resides in this scope
-                    return variables[var];
-                }
-                else if (!isParentScope())
-                {
-                    // Let the parent scope look for the variable
-                    return _parent.resolve(var);
-                }
-                else
-                {
-                    // Unknown variable
-                    return null;
-                }
+                // Unknown variable
+                return null;
             }    
         }
 

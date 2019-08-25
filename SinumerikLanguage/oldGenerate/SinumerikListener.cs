@@ -81,18 +81,6 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitVardefinition([NotNull] SinumerikParser.VardefinitionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>IdentifierSubprogCall</c>
-	/// labeled alternative in <see cref="SinumerikParser.subProgCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterIdentifierSubprogCall([NotNull] SinumerikParser.IdentifierSubprogCallContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>IdentifierSubprogCall</c>
-	/// labeled alternative in <see cref="SinumerikParser.subProgCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitIdentifierSubprogCall([NotNull] SinumerikParser.IdentifierSubprogCallContext context);
-	/// <summary>
 	/// Enter a parse tree produced by the <c>identifierFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// </summary>
@@ -836,6 +824,18 @@ public interface ISinumerikListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitToolIDFunctionCall([NotNull] SinumerikParser.ToolIDFunctionCallContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>subprogramFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSubprogramFunctionCall([NotNull] SinumerikParser.SubprogramFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>subprogramFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSubprogramFunctionCall([NotNull] SinumerikParser.SubprogramFunctionCallContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>msgFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.

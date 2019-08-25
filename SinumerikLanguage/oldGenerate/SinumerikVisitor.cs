@@ -62,13 +62,6 @@ public interface ISinumerikVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitVardefinition([NotNull] SinumerikParser.VardefinitionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>IdentifierSubprogCall</c>
-	/// labeled alternative in <see cref="SinumerikParser.subProgCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitIdentifierSubprogCall([NotNull] SinumerikParser.IdentifierSubprogCallContext context);
-	/// <summary>
 	/// Visit a parse tree produced by the <c>identifierFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// </summary>
@@ -502,6 +495,13 @@ public interface ISinumerikVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitToolIDFunctionCall([NotNull] SinumerikParser.ToolIDFunctionCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>subprogramFunctionCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSubprogramFunctionCall([NotNull] SinumerikParser.SubprogramFunctionCallContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>msgFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.

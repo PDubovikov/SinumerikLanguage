@@ -63,5 +63,29 @@ namespace SinumerikLanguage.Antlr4
 
             return ret;
         }
+
+        public SLValue InvokeWithoutArgs(String functionName, Dictionary<String, Function> functions, Scope scope, StringBuilder gcodeBuffer)
+        {
+
+            Scope scopeNext = new Scope(scope);
+            EvalVisitor evalVistorNext = new EvalVisitor(scopeNext, functions, gcodeBuffer);
+
+            SLValue ret = SLValue.VOID;
+            try
+            {
+                evalVistorNext.Visit(this.block);
+
+            }
+            catch (ReturnValue returnValue)
+            {
+                ret = returnValue.value;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Illegal Function {functionName} call");
+            }
+
+            return ret;
+        }    
     }
 }

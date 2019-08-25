@@ -474,8 +474,7 @@ namespace SinumerikLanguage.Antlr4
         // Number                                   #numberExpression
         public override SLValue VisitNumberExpression(NumberExpressionContext ctx)
         {
-                return new SLValue(Double.Parse(ctx.GetText(), NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign|NumberStyles.AllowExponent, numberInfo));
-
+               return new SLValue(Double.Parse(ctx.GetText(), NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign|NumberStyles.AllowExponent, numberInfo));
         }
 
         // Bool                                     #boolExpression
@@ -534,13 +533,15 @@ namespace SinumerikLanguage.Antlr4
         // functionCall indexes?                    #functionCallExpression
         public override SLValue VisitFunctionCallExpression(FunctionCallExpressionContext ctx)
         {
-            SLValue val = this.Visit(ctx.functionCall());
-            if (ctx.indexes() != null)
-            {
-                List<ExpressionContext> exps = ctx.indexes().expression().ToList(); 
-                val = resolveIndexes(val, exps);
-            }
-            return val;
+               SLValue val = this.Visit(ctx.functionCall());
+               if (ctx.indexes() != null)
+               {
+                   List<ExpressionContext> exps = ctx.indexes().expression().ToList(); 
+                   val = resolveIndexes(val, exps);
+               }
+
+               return val;
+
         }
 
         // list indexes?                            #listExpression
@@ -711,6 +712,26 @@ namespace SinumerikLanguage.Antlr4
             {
                 return function.Invoke(id, param, countParam, functions, scope, GcodeBuffer); 
             }
+            throw new EvalException(ctx);
+        }
+
+        public override SLValue VisitIdentifierSubprogCall(IdentifierSubprogCallContext ctx)
+        {
+            List<ExpressionContext> param = new ArrayList<ExpressionContext>();
+            String id = ctx.Identifier().GetText();//+ param.Count;
+            Function function;
+            Console.WriteLine($"subprog {id} call");
+
+            if(!functions.ContainsKey(id))
+            {
+                throw new EvalException($"function {id} doesn't exist", ctx);
+            }
+
+            if ((function = functions[id]) != null)
+            {
+                return function.InvokeWithoutArgs(id, functions, scope, GcodeBuffer);
+            }
+
             throw new EvalException(ctx);
         }
 

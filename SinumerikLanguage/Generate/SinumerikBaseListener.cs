@@ -95,6 +95,20 @@ public partial class SinumerikBaseListener : ISinumerikListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitVardefinition([NotNull] SinumerikParser.VardefinitionContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>IdentifierSubprogCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.subProgCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterIdentifierSubprogCall([NotNull] SinumerikParser.IdentifierSubprogCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>IdentifierSubprogCall</c>
+	/// labeled alternative in <see cref="SinumerikParser.subProgCall"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitIdentifierSubprogCall([NotNull] SinumerikParser.IdentifierSubprogCallContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by the <c>identifierFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -962,20 +976,6 @@ public partial class SinumerikBaseListener : ISinumerikListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitToolIDFunctionCall([NotNull] SinumerikParser.ToolIDFunctionCallContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by the <c>subprogramFunctionCall</c>
-	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterSubprogramFunctionCall([NotNull] SinumerikParser.SubprogramFunctionCallContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>subprogramFunctionCall</c>
-	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitSubprogramFunctionCall([NotNull] SinumerikParser.SubprogramFunctionCallContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>msgFunctionCall</c>
 	/// labeled alternative in <see cref="SinumerikParser.functionCall"/>.
